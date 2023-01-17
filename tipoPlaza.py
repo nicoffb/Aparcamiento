@@ -1,2 +1,0 @@
-# class TipoPlaza:
-#     def
