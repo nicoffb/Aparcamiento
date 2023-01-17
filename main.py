@@ -5,24 +5,24 @@ if __name__ == "__main__":
 
     print(parking.get_free_spaces()) 
 
-    car1 = "Car 1"
-    car2 = "Car 2"
-    car3 = "Car 3"
-    car4 = "Car 4"
+    plaza1 = "Plaza 1"
+    plaza2 = "Plaza 2"
+    plaza3 = "Plaza 3"
+    plaza4 = "Plaza 4"
 
     print("--------------------------------------------------")
 
     # adding cars
-    print(parking.add_car(car1, "car")) # True
-    print(parking.add_car(car2, "car")) # True
-    print(parking.add_car(car3, "motorcycle")) # True
-    print(parking.add_car(car4, "handicapped")) # True
+    print(parking.add_plaza(plaza1, "car")) # True
+    print(parking.add_plaza(plaza2, "car")) # True
+    print(parking.add_plaza(plaza3, "motorcycle")) # True
+    print(parking.add_plaza(plaza4, "handicapped")) # True
 
     # trying to add a car to a full spot
-    print(parking.add_car("Car 5", "car")) # False
+    print(parking.add_plaza("Plaza 5", "car")) # False
 
     # removing a car
-    print(parking.remove_car(car1)) # True
+    print(parking.remove_plaza(plaza1)) # True
 
     # getting free spaces
     print(parking.get_free_spaces()) # {"car": 67, "motorcycle": 14, "handicapped": 14}
