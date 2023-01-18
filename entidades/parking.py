@@ -1,16 +1,45 @@
 import pickle
 import random
 import datetime
-from aticket import Ticket
+from entidades.ticket import Ticket
 
 class Parking:
     def __init__(self, capacity):
-        self.capacity_types = {"car": round(capacity*0.7), "motorcycle": round(capacity*0.15), "handicapped": round(capacity*0.15)}
-        self.occupied_types = {"car": 0, "motorcycle": 0, "handicapped": 0}
-        self.plazas_ocupadas = {}
+        self.plazas = []
+        self.capacidad_total = capacity
+        self.ocupadas = 0
+        self.porcentaje_plazas_libres_car = 0.7
+        self.porcentaje_plazas_libres_motorcycle = 0.15
+        self.porcentaje_plazas_libres_handicapped = 0.15
+        self.plazas_libres_car = round(self.capacidad_total * self.porcentaje_plazas_libres_car)
+        self.plazas_libres_motorcycle = round(self.capacidad_total * self.porcentaje_plazas_libres_motorcycle)
+        self.plazas_libres_handicapped = round(self.capacidad_total * self.porcentaje_plazas_libres_handicapped)
+    
         self.tickets = {}
         self.cobros = []
         self.tarifas_vehiculos = {"car": 0.12, "motorcycle": 0.08, "handicapped": 0.10}
+
+
+    # @property       ¿LO PONGO EN EL CONSTRUCTOR O EN LOS GETTER Y SETTERS?
+    # def porcentaje_plazas_libres_car(self):
+    #     return self.__porcentaje_plazas_libres_car
+
+    # @porcentaje_plazas_libres_car.setter
+    # def porcentaje_plazas_libres_car(self, porcentaje):
+    #     self.__porcentaje_plazas_libres_car = porcentaje
+    #     self.plazas_libres_car = round(self.capacidad_total * self.porcentaje_plazas_libres_car)
+        
+    # @property
+    # def porcentaje_plazas_libres_motorcycle(self):
+    #     return self.__porcentaje_plazas_libres_motorcycle
+
+    # @porcentaje_plazas_libres_motorcycle.setter
+    # def porcentaje_plazas_libres_motorcycle(self, porcentaje):
+    #     self.__porcentaje_plazas_libres_motorcycle = porcentaje
+    #     self.plazas_libres_motorcycle = round(self.capacidad_total * self.porcentaje_plazas_libres_motorcycle)
+
+    #  @property
+    #def porcentaje_plazas_libres_handicapped
         
 
     def asignar_plaza(self, matricula, tipo_vehiculo):

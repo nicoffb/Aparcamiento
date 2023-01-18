@@ -1,0 +1,3 @@
+un aparcamiento con lista de plazas y una plaza tiene un coche-Luismi
+
+un cliente tiene un coche y una plaza, y un abonado hereda de cliente-Xopin
