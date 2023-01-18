@@ -1,6 +1,7 @@
 from datetime import datetime
 class Plaza:
-    def __init__(self, vehiculo, cliente, pin, entrada=datetime.now(), salida=None, costeTotal=None, ocupada=False):
+    def __init__(self,id, vehiculo, cliente, pin, entrada=datetime.now(), salida=None, costeTotal=None, ocupada=False):
+        self.id= id
         self.__vehiculo = vehiculo
         self.__cliente = cliente
         self.__pin = pin

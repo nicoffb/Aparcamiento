@@ -1,8 +1,7 @@
-import datetime
+
 from entidades.aaparking import Parking
 from entidades.plaza import Plaza
 from entidades.vehiculo import Vehiculo
-
 
 
 # if __name__ == "__main__":

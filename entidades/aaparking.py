@@ -1,4 +1,4 @@
-from vehiculo import Vehiculo
+from plaza import Plaza
 
 class Parking:
     def __init__(self,total_plazas):
@@ -10,15 +10,38 @@ class Parking:
         self.plazas_libres_motorcycle = round(self.total_plazas * self.porcentaje_plazas_libres_motorcycle)
         self.plazas_libres_handicapped = round(self.total_plazas * self.porcentaje_plazas_libres_handicapped)
         self.plazas = []
+        for i in range(total_plazas):
+            self.plazas.append(Plaza(i, None, None, None, None, None, None, False))
 
-    ...
+
     def addPlaza(self, plaza):
         plaza.ocupado = True
+        
+
+        if plaza.vehiculo.tipo == "car":
+            self.plazas_libres_car -= 1
+        elif plaza.vehiculo.tipo == "motorcycle":
+            self.plazas_libres_motorcycle -= 1
+        elif plaza.vehiculo.tipo == "handicapped":
+            self.plazas_libres_handicapped -= 1
         self.plazas.append(plaza)
 
     def liberarPlaza(self, plaza):
         plaza.ocupado = False
+        if plaza.vehiculo.tipo == "car":
+            self.plazas_libres_car += 1
+        elif plaza.vehiculo.tipo == "motorcycle":
+            self.plazas_libres_motorcycle += 1
+        elif plaza.vehiculo.tipo == "handicapped":
+            self.plazas_libres_handicapped += 1
         self.plazas.remove(plaza)
+
+
+
+
+
+
+
 
     def plazasLibres(self):
         return len([plaza for plaza in self.plazas if not plaza.ocupado])
