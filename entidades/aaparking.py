@@ -1,4 +1,7 @@
 from plaza import Plaza
+import pickle
+import random
+import datetime
 
 class Parking:
     def __init__(self,total_plazas):
