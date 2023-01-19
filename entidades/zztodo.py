@@ -19,8 +19,6 @@ class Parking:
 
     def addPlaza(self, plaza):
         plaza.ocupado = True
-        
-
         if plaza.vehiculo.tipo == "car":
             self.plazas_libres_car -= 1
         elif plaza.vehiculo.tipo == "motorcycle":
@@ -38,6 +36,45 @@ class Parking:
         elif plaza.vehiculo.tipo == "handicapped":
             self.plazas_libres_handicapped += 1
         self.plazas.remove(plaza)
+
+    def asignar_plaza(self, matricula, tipo_vehiculo):
+        plaza_asignada = None
+        vehiculo = Vehiculo(matricula, tipo_vehiculo)
+        if vehiculo.tipo == "car" and self.plazas_libres_car > 0:
+            for plaza in self.plazas:
+                if not plaza.ocupada and plaza.vehiculo.tipo == "car":
+                    plaza.ocupada = True
+                    plaza.vehiculo = vehiculo
+                    plaza_asignada = plaza
+                    self.plazas_libres_car -= 1
+                    break
+        elif vehiculo.tipo == "motorcycle" and self.plazas_libres_motorcycle > 0:
+            for plaza in self.plazas:
+                if not plaza.ocupada and plaza.vehiculo.tipo == "motorcycle":
+                    plaza.ocupada = True
+                    plaza.vehiculo = vehiculo
+                    plaza_asignada = plaza
+                    self.plazas_libres_motorcycle -= 1
+                    break
+        elif vehiculo.tipo == "handicapped" and self.plazas_libres_handicapped > 0:
+            for plaza in self.plazas:
+                if not plaza.ocupada and plaza.vehiculo.tipo == "handicapped":
+                    plaza.ocupada = True
+                    plaza.vehiculo = vehiculo
+                    plaza_asignada = plaza
+                    self.plazas_libres_handicapped -= 1
+                    break
+        return plaza_asignada
+
+
+
+
+    def generar_ticket(self):
+        import random
+        pin = random.randint(100000, 999999)
+        ticket = Ticket(self.plaza_asignada.vehiculo, self.plaza_asignada, self.fecha_entrada, self.fecha_deposito, pin)
+        print(ticket)
+        print(ticket.__str__())
 
 
 class Plaza:
@@ -78,17 +115,9 @@ class Plaza:
 
 
 class Vehiculo:
-    def __init__(self, tipo, matricula):
-        self._tipo = tipo
+    def __init__(self, matricula, tipo):
         self._matricula = matricula
-
-    @property
-    def tipo(self):
-        return self._tipo
-
-    @tipo.setter
-    def tipo(self, value):
-        self._tipo = value
+        self._tipo = tipo
 
     @property
     def matricula(self):
@@ -98,14 +127,26 @@ class Vehiculo:
     def matricula(self, value):
         self._matricula = value
 
+    @property
+    def tipo(self):
+        return self._tipo
+
+    @tipo.setter
+    def tipo(self, value):
+        self._tipo = value
+
 class Ticket:
     def __init__(self, vehiculo, plaza, fecha_entrada, fecha_salida, coste_total,pin):
         self.__vehiculo = vehiculo
         self.__plaza = plaza
-        self.__fecha_entrada = fecha_entrada
+        self.__fecha_entrada = datetime.now()
         self.__fecha_salida = fecha_salida
         self.__coste_total = coste_total
         self.__pin = pin
+
+    def __str__(self):
+        return f"Se ha generado una plaza {self.plaza.id} para la matrícula {self.vehiculo.matricula}. Su pin es: {self.id}"
+
 
     @property
     def vehiculo(self):

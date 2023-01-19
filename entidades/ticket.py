@@ -1,17 +1,17 @@
-from vehiculo import Vehiculo
-from plaza import Plaza
+
+from datetime import datetime
 
 class Ticket:
     def __init__(self, vehiculo, plaza, fecha_entrada, fecha_salida, coste_total,pin):
         self.__vehiculo = vehiculo
         self.__plaza = plaza
-        self.__fecha_entrada = fecha_entrada
+        self.__fecha_entrada = datetime.now()
         self.__fecha_salida = fecha_salida
         self.__coste_total = coste_total
         self.__pin = pin
 
     def __str__(self):
-        return f"Se ha generado una plaza {self.plaza.id} para la matrícula {self.vehiculo.matricula}. Su pin es: {self.id}"
+        return f"Se ha generado una plaza {self.plaza.id} para la matrícula {self.vehiculo.matricula}. Su pin es: {self.pin}"
 
 
     @property
