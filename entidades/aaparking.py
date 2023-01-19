@@ -1,5 +1,6 @@
 import pickle
 import random
+from datetime import datetime
 from entidades.plaza import Plaza
 from entidades.ticket import Ticket
 from entidades.vehiculo import Vehiculo
@@ -8,6 +9,8 @@ from entidades.vehiculo import Vehiculo
 class Parking:
     def __init__(self,total_plazas):
         self.total_plazas = total_plazas
+        self.coste_plazas_car=1.20
+        self.coste_plazas_motorcycle=0.08
         self.porcentaje_plazas_libres_car = 0.7
         self.porcentaje_plazas_libres_motorcycle = 0.15
         self.porcentaje_plazas_libres_handicapped = 0.15
@@ -54,50 +57,21 @@ class Parking:
                 self.addPlaza(plaza)
                 plaza_encontrada = True
                 print(self.plazas_disponibles_por_tipo())
+                pin = random.randint(100000, 999999)      
+                ticket = Ticket(plaza.vehiculo,plaza,None,None, None, pin)
+                print(f"Se ha generado una plaza {ticket.plaza.vehiculo.tipo} para la matrícula {ticket.plaza.vehiculo.matricula}. Su pin es: {ticket.pin}. Hora: {ticket.fecha_entrada}")    
                 
         if not plaza_encontrada:
             print("No hay plazas disponibles para ese tipo de vehículo.")
             print(self.plazas_disponibles_por_tipo())
 
 
-    # def asignar_plaza2(self, matricula, tipo_vehiculo):
-    #     plaza_asignada = None
-    #     vehiculo = Vehiculo(matricula, tipo_vehiculo)
-    #     if vehiculo.tipo == "car" and self.plazas_disponibles_car > 0:
-    #         for plaza in self.plazas:
-    #             if not plaza.ocupada and plaza.vehiculo.tipo == "car":
-    #                 plaza.ocupada = True
-    #                 plaza.vehiculo = vehiculo
-    #                 plaza_asignada = plaza
-    #                 self.plazas_disponibles_car -= 1
-    #                 self.generar_ticket()
-    #     elif vehiculo.tipo == "motorcycle" and self.plazas_disponibles_motorcycle > 0:
-    #         for plaza in self.plazas:
-    #             if not plaza.ocupada and plaza.vehiculo.tipo == "motorcycle":
-    #                 plaza.ocupada = True
-    #                 plaza.vehiculo = vehiculo
-    #                 plaza_asignada = plaza
-    #                 self.plazas_disponibles_motorcycle -= 1
-    #                 self.generar_ticket()
-    #     elif vehiculo.tipo == "handicapped" and self.plazas_disponibles_handicapped > 0:
-    #         for plaza in self.plazas:
-    #             if not plaza.ocupada and plaza.vehiculo.tipo == "handicapped":
-    #                 plaza.ocupada = True
-    #                 plaza.vehiculo = vehiculo
-    #                 plaza_asignada = plaza
-    #                 self.plazas_disponibles_handicapped -= 1
-    #                 self.generar_ticket()
-    #     return plaza_asignada
-
-# # return f"Se ha generado una plaza {self.plaza.id} para la matrícula {self.vehiculo.matricula}. Su pin es: {self.pin}"
-
-
-#     def generar_ticket(self):
-#         pin = random.randint(100000, 999999)
-#         ticket = Ticket(self.plaza_asignada.vehiculo, self.plaza_asignada, self.fecha_entrada,pin)
-#         print(f"Se ha generado una plaza {ticket.vehiculo.tipo} para la matrícula {ticket.vehiculo.matricula}. Su pin es: {self.pin}")
-#         #print(ticket)
-#         print(ticket.__str__())
+    # def generar_ticket(self):
+    #     pin = random.randint(100000, 999999)
+    #     ticket = Ticket(self.plaza, self.plaza_asignada, self.fecha_entrada,pin)
+    #     print(f"Se ha generado una plaza {ticket.vehiculo.tipo} para la matrícula {ticket.vehiculo.matricula}. Su pin es: {self.pin}")
+    #     #print(ticket)
+    #     print(ticket.__str__())
         
 
 
