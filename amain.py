@@ -28,5 +28,19 @@ if __name__ == "__main__":
 
     
     parking.asignar_plaza(matricula,tipo)
+
+    # parking.removePlaza(plaza1)
+    # parking.removePlaza(plaza3)
+
+    print("VA A PROCEDER A SACAR EL VEHICULO")
+
+    matricula2 = input("Introduce la matrícula del vehículo: ")
+    id2 = int(input("Introduce el identificador "))
+    pin = int(input("Introduce el pin"))
+
+    parking.retirarVehiculo(matricula2,id2,pin)
+
+
+    print(parking.plazas_disponibles_por_tipo())
     
 
