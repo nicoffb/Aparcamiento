@@ -15,72 +15,60 @@ class Parking:
         self.plazas_disponibles_motorcycle = round(self.total_plazas * self.porcentaje_plazas_libres_motorcycle)
         self.plazas_disponibles_handicapped = round(self.total_plazas * self.porcentaje_plazas_libres_handicapped)
         self.plazas = []
-        # for i in range(total_plazas):
-        #     tipo = None
-        #     vehiculo = None
-        #     if i < self.plazas_disponibles_car:
-        #         tipo = "car"
-        #         vehiculo = Vehiculo(None, tipo)
-        #     elif i < self.plazas_disponibles_car + self.plazas_disponibles_motorcycle:
-        #         tipo = "motorcycle"
-        #         vehiculo = Vehiculo(None, tipo)
-        #     else:
-        #         tipo = "handicapped"
-        #         vehiculo = Vehiculo(None, tipo)
-        #     self.plazas.append(Plaza(i, vehiculo, None, False))
-        for i in range(total_plazas):
+        for i in range(self.total_plazas):
             self.plazas.append(Plaza(i, None, None, False))
 
-
-    # def addPlaza(self, plaza):
-    #     plaza.ocupado = True
-    #     if plaza.vehiculo.tipo == "car":
-    #         self.plazas_libres_car -= 1
-    #     elif plaza.vehiculo.tipo == "motorcycle":
-    #         self.plazas_libres_motorcycle -= 1
-    #     elif plaza.vehiculo.tipo == "handicapped":
-    #         self.plazas_libres_handicapped -= 1
-    #     self.plazas.append(plaza)
-
-    # def liberarPlaza(self, plaza):
-    #     plaza.ocupado = False
-    #     if plaza.vehiculo.tipo == "car":
-    #         self.plazas_libres_car += 1
-    #     elif plaza.vehiculo.tipo == "motorcycle":
-    #         self.plazas_libres_motorcycle += 1
-    #     elif plaza.vehiculo.tipo == "handicapped":
-    #         self.plazas_libres_handicapped += 1
-    #     self.plazas.remove(plaza)
-
-
     def addPlaza(self, plaza):
-        # if isinstance(plaza, Plaza) and not plaza.ocupada:
-            plaza.ocupada = True
-            if plaza.vehiculo.tipo == "car":
-                self.plazas_disponibles_car -= 1
-            elif plaza.vehiculo.tipo == "motorcycle":
-                self.plazas_disponibles_motorcycle -= 1
-            elif plaza.vehiculo.tipo == "handicapped":
-                self.plazas_disponibles_handicapped -= 1
+        if plaza.vehiculo.tipo == "car" and self.plazas_disponibles_car > 0:
+            self.plazas_disponibles_car -= 1
             self.plazas.append(plaza)
-        # else:
-        #     raise ValueError("La plaza no es valida o ya esta ocupada")
+            plaza.ocupada = True
+        elif plaza.vehiculo.tipo == "motorcycle" and self.plazas_disponibles_motorcycle > 0:
+            self.plazas_disponibles_motorcycle -= 1
+            self.plazas.append(plaza)
+            plaza.ocupada = True
+        elif plaza.vehiculo.tipo == "handicapped" and self.plazas_disponibles_handicapped > 0:
+            self.plazas_disponibles_handicapped -= 1
+            self.plazas.append(plaza)
+            plaza.ocupada = True
+        else:
+            print("No hay plazas disponibles para ese tipo de vehículo.")
 
 
-    def plazasLibres(self):
-        return len([plaza for plaza in self.plazas if not plaza.ocupada])
+    def removePlaza(self, plaza):
+        if plaza in self.plazas:
+            self.plazas.remove(plaza)
+            plaza.ocupada = False
+            if plaza.vehiculo.tipo == "car":
+                self.plazas_disponibles_car += 1
+            elif plaza.vehiculo.tipo == "motorcycle":
+                self.plazas_disponibles_motorcycle += 1
+            elif plaza.vehiculo.tipo == "handicapped":
+                self.plazas_disponibles_handicapped += 1
+        else:
+            print("La plaza no existe en el parking.")
 
 
+    def calcular_plazas_libres(self):
+        return self.plazas_disponibles_car + self.plazas_disponibles_motorcycle + self.plazas_disponibles_handicapped
+
+    def plazas_disponibles_por_tipo(self):
+        return {'car': self.plazas_disponibles_car, 'motorcycle': self.plazas_disponibles_motorcycle, 'handicapped': self.plazas_disponibles_handicapped}
 
 
+    def asignar_plaza(self, matricula, tipo):
+        plaza_encontrada = False
+        for plaza in self.plazas:
+            if plaza.ocupada == False and plaza.vehiculo.tipo == tipo and not plaza_encontrada:
+                plaza.vehiculo = Vehiculo(matricula, tipo)
+                plaza.ocupada = True
+                plaza_encontrada = True
+                return plaza.id
+        if not plaza_encontrada:
+            print("No hay plazas disponibles para ese tipo de vehículo.")
 
 
-
-
-
-
-
-    def asignar_plaza(self, matricula, tipo_vehiculo):
+    def asignar_plaza2(self, matricula, tipo_vehiculo):
         plaza_asignada = None
         vehiculo = Vehiculo(matricula, tipo_vehiculo)
         if vehiculo.tipo == "car" and self.plazas_disponibles_car > 0:
@@ -141,11 +129,6 @@ class Parking:
 
 
 
-    def plazasLibresPorTipo(self):
-        plazasLibres = {"car": self.plazas_disponibles_car, "motorcycle": self.plazas_disponibles_motorcycle, "handicapped": self.plazas_disponibles_handicapped}
-        for plaza in self.plazas:
-            if not plaza.ocupada:
-                plazasLibres[plaza.vehiculo.tipo] -= 1
-        return plazasLibres
+    
 
     
