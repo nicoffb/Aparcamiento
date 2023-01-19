@@ -29,7 +29,7 @@ if __name__ == "__main__":
     
     parking.asignar_plaza(matricula,tipo)
     
-    parking.imprimir_plazas()
+    #parking.imprimir_plazas()
     
     
     
@@ -41,5 +41,7 @@ if __name__ == "__main__":
 
     parking.retirarVehiculo(matricula2,id,pin)
 
-    parking.imprimir_plazas()
+    # parking.imprimir_plazas()
+
+    # parking.calcularPago(tipo)
     

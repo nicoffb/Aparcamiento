@@ -63,22 +63,18 @@ class Parking:
                 self.addPlaza(plaza)
                 plaza_encontrada = True
                 print(self.plazas_disponibles_por_tipo())
-                pin = random.randint(100000, 999999)
+                pin = random.randint(1, 10)
+                #corregir el numero
                 ticket = Ticket(plaza.vehiculo, plaza, None, None, None, pin)
                 with open("ticket.pkl", "wb") as f:
                     pickle.dump(ticket, f)
                 print(f"Se ha generado una plaza {ticket.plaza.vehiculo.tipo} para la matrícula {ticket.plaza.vehiculo.matricula}. Su pin es: {ticket.pin} para la plaza con el identificador {ticket.plaza.id}. Hora: {ticket.fecha_entrada}")
+                f.close()
 
         if not plaza_encontrada:
             print("No hay plazas disponibles para ese tipo de vehículo.")
             print(self.plazas_disponibles_por_tipo())
 
-    # def generar_ticket(self):
-    #     pin = random.randint(100000, 999999)
-    #     ticket = Ticket(self.plaza, self.plaza_asignada, self.fecha_entrada,pin)
-    #     print(f"Se ha generado una plaza {ticket.vehiculo.tipo} para la matrícula {ticket.vehiculo.matricula}. Su pin es: {self.pin}")
-    #     #print(ticket)
-    #     print(ticket.__str__())
 
     def removePlaza(self, plaza):
         if plaza in self.plazas:
@@ -103,11 +99,39 @@ class Parking:
                 self.removePlaza(plaza)
                 plaza_encontrada = True
                 print("La plaza ha sido desasignada correctamente.")
-                break
+                self.calcularPago(ticket_recuperado.vehiculo.tipo)
+                f.close()
+                
         if not plaza_encontrada:
             print("No se ha encontrado una plaza válida.")
 
     def calcularPago(self,tipo):
+        with open("ticket.pkl", "rb") as f:
+            ticket_recuperado = pickle.load(f)
+        ticket_recuperado.fecha_salida= datetime.now()
+        tiempo_estacionado = ticket_recuperado.fecha_salida - ticket_recuperado.fecha_entrada
+        print(tiempo_estacionado.seconds/60)
+        print(" de tiempo estacionado ")
+        
+        if tipo == "car":
+            resultado = (tiempo_estacionado.seconds/60)*self.coste_plazas_car
+        elif tipo == "motorcycle":
+            resultado=tiempo_estacionado.seconds/60* self.coste_plazas_motorcycle
+        elif tipo == "handicapped":
+            resultado=tiempo_estacionado.seconds/60* self.coste_plaza_handicapped
+        else:
+            print("No existe ese tipo")
+
+        
+        ticketNuevo = Ticket(ticket_recuperado.vehiculo,ticket_recuperado.plaza,ticket_recuperado.fecha_entrada,ticket_recuperado.fecha_salida,resultado,ticket_recuperado.pin)
+        with open("ticket.pkl", "wb") as f:
+            pickle.dump(ticketNuevo, f)
+        
+        print("-----------")
+        print (f"Su coste por ser un vehiculo tipo {ticketNuevo.plaza.vehiculo.tipo} para la matrícula {ticketNuevo.plaza.vehiculo.matricula} es de {ticketNuevo.coste_total}. Su pin era: {ticketNuevo.pin} para la plaza con el identificador {ticketNuevo.plaza.id}. Ha estado de {ticketNuevo.fecha_entrada} a {ticketNuevo.fecha_salida}")
+        # hacer que te diga también la tarifa que es un atributo self.coste.cars pero seria con if supongo con 3 prints
+        print("-----------")
+        
 
     def imprimir_plazas(self):
         for plaza in self.plazas:
