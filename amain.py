@@ -22,5 +22,11 @@ if __name__ == "__main__":
 
     print("Plazas disponibles:", parking.calcular_plazas_libres())
     print(parking.plazas_disponibles_por_tipo())
+
+    matricula = input("Introduce la matrícula del vehículo: ")
+    tipo = input("Introduce el tipo de vehículo (car, motorcycle, handicapped): ")
+
+    
+    parking.asignar_plaza(matricula,tipo)
     
 
