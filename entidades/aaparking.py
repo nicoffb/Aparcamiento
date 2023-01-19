@@ -11,6 +11,7 @@ class Parking:
         self.total_plazas = total_plazas
         self.coste_plazas_car = 1.20
         self.coste_plazas_motorcycle = 0.08
+        self.coste_plaza_handicapped = 0.10
         self.porcentaje_plazas_libres_car = 0.7
         self.porcentaje_plazas_libres_motorcycle = 0.15
         self.porcentaje_plazas_libres_handicapped = 0.15
@@ -28,19 +29,23 @@ class Parking:
         if plaza.vehiculo.tipo == "car" and self.plazas_disponibles_car > 0:
             self.plazas_disponibles_car -= 1
             plaza.ocupada = True
-            self.plazas.append(plaza)
+            for i, p in enumerate(self.plazas):
+                if p.id == plaza.id:
+                    self.plazas[i] = plaza
         elif plaza.vehiculo.tipo == "motorcycle" and self.plazas_disponibles_motorcycle > 0:
             self.plazas_disponibles_motorcycle -= 1
             plaza.ocupada = True
-            self.plazas.append(plaza)
-
+            for i, p in enumerate(self.plazas):
+                if p.id == plaza.id:
+                    self.plazas[i] = plaza
         elif plaza.vehiculo.tipo == "handicapped" and self.plazas_disponibles_handicapped > 0:
             self.plazas_disponibles_handicapped -= 1
             plaza.ocupada = True
-            self.plazas.append(plaza)
+            for i, p in enumerate(self.plazas):
+                if p.id == plaza.id:
+                    self.plazas[i] = plaza
+                   
 
-        else:
-            print("Hola")
 
     def calcular_plazas_libres(self):
         self.total_plazas = self.plazas_disponibles_car + \
@@ -77,7 +82,6 @@ class Parking:
 
     def removePlaza(self, plaza):
         if plaza in self.plazas:
-            self.plazas.remove(plaza)
             plaza.ocupada = False
             if plaza.vehiculo.tipo == "car":
                 self.plazas_disponibles_car += 1
@@ -88,14 +92,14 @@ class Parking:
         else:
             print("La plaza no existe en el parking.")
 
-    def retirarVehiculo(self, matricula, id, pin):
+    def retirarVehiculo(self, matricula,id,pin):
         with open("ticket.pkl", "rb") as f:
-                    ticket_recuperado = pickle.load(f)
+            ticket_recuperado = pickle.load(f)
         plaza_encontrada = False
         for plaza in self.plazas:
-            if plaza.id == id and plaza.vehiculo.matricula == matricula and ticket_recuperado.pin == pin:
-                plaza.vehiculo = None
-                plaza.ticket = None
+            if plaza.vehiculo.matricula == matricula and plaza.id == id and ticket_recuperado.pin == pin:
+                plaza.vehiculo.tipo = None
+                plaza.vehiculo.matricula = None
                 self.removePlaza(plaza)
                 plaza_encontrada = True
                 print("La plaza ha sido desasignada correctamente.")
@@ -103,4 +107,12 @@ class Parking:
         if not plaza_encontrada:
             print("No se ha encontrado una plaza válida.")
 
-    # def calcularPago(self,tipo):
+    def calcularPago(self,tipo):
+
+    def imprimir_plazas(self):
+        for plaza in self.plazas:
+            print("Id: ", plaza.id)
+            print("Matrícula: ", plaza.vehiculo.matricula)
+            print("Tipo: ", plaza.vehiculo.tipo)
+            print("Estado: ", "Ocupada" if plaza.ocupada else "Libre")
+            print("")

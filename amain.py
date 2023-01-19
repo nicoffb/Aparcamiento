@@ -9,7 +9,7 @@ if __name__ == "__main__":
     moto1 = Vehiculo("3030TSS", "motorcycle")
     minus = Vehiculo("7777", "handicapped")
 
-    parking = Parking(100)  # Create a parking with 100 parking spaces
+    parking = Parking(12)  # Create a parking with 100 parking spaces
     plaza1 = Plaza(1, car1, None)
     parking.addPlaza(plaza1)
 
@@ -28,19 +28,18 @@ if __name__ == "__main__":
 
     
     parking.asignar_plaza(matricula,tipo)
-
-    # parking.removePlaza(plaza1)
-    # parking.removePlaza(plaza3)
-
+    
+    parking.imprimir_plazas()
+    
+    
+    
     print("VA A PROCEDER A SACAR EL VEHICULO")
 
     matricula2 = input("Introduce la matrícula del vehículo: ")
-    id2 = int(input("Introduce el identificador "))
+    id = int(input("Introduce el id "))
     pin = int(input("Introduce el pin"))
 
-    parking.retirarVehiculo(matricula2,id2,pin)
+    parking.retirarVehiculo(matricula2,id,pin)
 
-
-    print(parking.plazas_disponibles_por_tipo())
+    parking.imprimir_plazas()
     
-
