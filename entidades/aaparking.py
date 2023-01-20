@@ -136,8 +136,6 @@ class Parking:
         # hacer que te diga también la tarifa que es un atributo self.coste.cars pero seria con if supongo con 3 prints
         print("-----------")
 
-        #RECORDAR GUARDAR EN UNA LISTA DE TICKETS QUE PODRIA SER FACTURACION CON LISTA DE TICKETS
-        #guardar en lista lista de tickets de facturacion con append lista(ticket)
 
     def imprimir_plazas(self):
         for plaza in self.plazas:
@@ -210,17 +208,18 @@ class Parking:
                 encontrado = True
                 break
             i += 1  
-
+        if not encontrado:
+            print("La plaza con id {} no existe.".format(id))
         self.facturacion.add_abonado(abonado)
 
-    def baja_abonado(self,abonado): #podria poner el dni y que lo busque por dni
+    def baja_abonado(self,dni): #podria poner el dni y que lo busque por dni
         i = 0
         encontrado = False
         while i < len(self.plazas) and not encontrado:
-            if self.plazas[i].id == abonado.abono.id_plaza_abono:
+            if self.plazas[i].abonado.dni == dni:
                 self.plazas[i].vehiculo=None
                 self.plazas[i].abonado=None
                 encontrado = True
             i += 1
         if not encontrado:
-            print("No existe")
+            print("No existe plaza con este DNI: {}".format(id))
