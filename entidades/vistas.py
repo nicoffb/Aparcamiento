@@ -30,3 +30,10 @@ parking.alta_abonado(idPlaza,dni3,tipoA)
 
     # parking.calcularPago(tipo)
     
+
+
+
+
+
+
+    
