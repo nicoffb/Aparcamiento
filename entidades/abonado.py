@@ -2,13 +2,13 @@ import random
 
 
 class Abonado:
-    def __init__(self, dni, nombre, apellidos, tarjeta_credito, tipo_abono, email,vehiculoAbonado):
+    def __init__(self, dni, nombre, apellidos, tarjeta_credito, abono, email,vehiculoAbonado):
         self._vehiculoAbonado = vehiculoAbonado
         self._dni = dni
         self._nombre = nombre
         self._apellidos = apellidos
         self._tarjeta_credito = tarjeta_credito
-        self._tipo_abono = tipo_abono
+        self._abono = abono
         self._email = email
         self._pin = random.randint(1111, 9999)
         self._activo = False
@@ -56,12 +56,12 @@ class Abonado:
         self._tarjeta_credito = value
         
     @property
-    def tipo_abono(self):
-        return self._tipo_abono
+    def abono(self):
+        return self._abono
     
-    @tipo_abono.setter
-    def tipo_abono(self, value):
-        self._tipo_abono = value
+    @abono.setter
+    def abono(self, value):
+        self._abono = value
         
     @property
     def email(self):
@@ -89,4 +89,4 @@ class Abonado:
 
     
     def str(self):
-        return "DNI: {}\nNombre: {}\nApellidos: {}\nTarjeta de crédito: {}\nTipo de abono: {}\nEmail: {}\nPin: {}\nEstado de aparcamiento: {}\n Matrícula {} Tipo {}".format(self._dni, self._nombre, self._apellidos, self._tarjeta_credito, self._tipo_abono, self._email, self._pin, self._activo,self._vehiculoAbonado.matricula,self._vehiculoAbonado.tipo)
+        return "DNI: {}\nNombre: {}\nApellidos: {}\nTarjeta de crédito: {}\nTipo de abono: {}\nEmail: {}\nPin: {}\nAparcamiento reservado: {}\n Matrícula {} Tipo {}".format(self._dni, self._nombre, self._apellidos, self._tarjeta_credito, self._abono, self._email, self._pin, self._activo,self._vehiculoAbonado.matricula,self._vehiculoAbonado.tipo)

@@ -12,14 +12,20 @@ if __name__ == "__main__":
     moto1 = Vehiculo("3030TSS", "motorcycle")
     minus = Vehiculo("7777", "handicapped")
 
+    cocheabonado = Vehiculo("0000", "handicapped")
+
 
     abonado1 = Abonado("53771267L","Nicolás","Bursón","77777","Mensual","nicoffb@hotmail.com",car1)
-    print(abonado1.str())
+
+    #abonado2 = Abonado("XXXXXXXX","Mortadelo","Filomeno","66666","Semanal","13rue@hotmail.com",cocheabonado)
+    #parking.alta_abonado(8,)
     
     print("Plazas disponibles:", parking.calcular_plazas_libres()) 
 
+   
+
     plaza1 = Plaza(1, car1, abonado1)
-    parking.addPlaza(plaza1)
+    #parking.addPlaza(plaza1)
 
     plaza2 = Plaza(2, moto1, None)
     parking.addPlaza(plaza2)
@@ -28,14 +34,14 @@ if __name__ == "__main__":
     parking.addPlaza(plaza3)
 
     
-
+    parking.imprimir_plazas()
 
     print("Plazas disponibles:", parking.calcular_plazas_libres())
     print(parking.plazas_disponibles_por_tipo())
 
-    parking.depositar_abonados(plaza1.vehiculo.matricula,plaza1.abonado.dni)
+    #parking.depositar_abonados(plaza1.vehiculo.matricula,plaza1.abonado.dni)
 
-    
+    #parking.imprimir_plazas()
     matricula = input("Introduce la matrícula del vehículo: ")
     dni = input("Introduce tu dni")
 
@@ -60,27 +66,5 @@ if __name__ == "__main__":
 
 
 
-    matricula = input("Introduce la matrícula del vehículo: ")
-    tipo = input("Introduce el tipo de vehículo (car, motorcycle, handicapped): ")
-
-
-    
-    parking.asignar_plaza(matricula,tipo)
-    
-    #parking.imprimir_plazas()
-    
-    
-    
-    print("VA A PROCEDER A SACAR EL VEHICULO")
-
-    matricula2 = input("Introduce la matrícula del vehículo: ")
-    id = int(input("Introduce el id "))
-    pin = int(input("Introduce el pin"))
-
-    parking.retirarVehiculo(matricula2,id,pin)
-
-    # parking.imprimir_plazas()
-
-    # parking.calcularPago(tipo)
-    
+   
 

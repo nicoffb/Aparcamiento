@@ -5,11 +5,13 @@ from entidades.plaza import Plaza
 from entidades.ticket import Ticket
 from entidades.vehiculo import Vehiculo
 from entidades.abonado import Abonado
-
+from entidades.abono import Abono
+from entidades.facturacion import Facturacion
 
 class Parking:
     def __init__(self, total_plazas):
         self.total_plazas = total_plazas
+        self.facturacion = Facturacion()
         self.coste_plazas_car = 1.20
         self.coste_plazas_motorcycle = 0.08
         self.coste_plaza_handicapped = 0.10
@@ -25,7 +27,7 @@ class Parking:
             self.total_plazas * self.porcentaje_plazas_libres_handicapped)
         self.plazas = []
         for i in range(self.total_plazas):
-            self.plazas.append(Plaza(i, Vehiculo(None, None), Abonado(None,None,None,None,None,None,None), False))
+            self.plazas.append(Plaza(i, Vehiculo(None, None), Abonado(None,None,None,None,None,None,Vehiculo(None, None)), False))
 
     def addPlaza(self, plaza):
         if plaza.vehiculo.tipo == "car" and self.plazas_disponibles_car > 0:
@@ -70,6 +72,7 @@ class Parking:
                 with open("ticket.pkl", "wb") as f:
                     pickle.dump(ticket, f)
                 print(f"Se ha generado una plaza {ticket.plaza.vehiculo.tipo} para la matrícula {ticket.plaza.vehiculo.matricula}. Su pin es: {ticket.pin} para la plaza con el identificador {ticket.plaza.id}. Hora: {ticket.fecha_entrada}")
+                self.facturacion.add_ticket(ticket)
                 f.close()
 
         if not plaza_encontrada:
@@ -142,28 +145,82 @@ class Parking:
             print("Matrícula: ", plaza.vehiculo.matricula)
             print("Tipo: ", plaza.vehiculo.tipo)
             print("Estado: ", "Ocupada" if plaza.ocupada else "Libre")
-            print("")
+            if plaza.abonado is not None:
+                print("INFORMACIÓN DEL ABONADO:",plaza.abonado.str() )
+            else:
+                print("SIN ABONADO ASIGNADO")
+    
+
+    
 
     def depositar_abonados(self,matricula,dni):
         plaza_encontrada = False
         for plaza in self.plazas:
             if plaza.ocupada == False and not plaza_encontrada and self.plazas_libres > 0:
-                plaza_encontrada = False
                 for i, p in enumerate(self.plazas):
                     if p.vehiculo.matricula == matricula and p.abonado.dni == dni:
-                        #quiero que la plaza se actualice y ponga que está ocupada y 
-                        plaza.vehiculo = Vehiculo(matricula,None)
                         self.plazas_libres -= 1
                         plaza.ocupada = True
-                        plaza.abonado.activo = True
                         self.plazas[i] = plaza
                         plaza_encontrada = True
-                        #creo q no se está guardando el abonado, sino saldria ya aparcado True
+                        #LO SUYO ES QUE ACTUALICE EL LA CANTIDAD DE TIPO DE VEHICULO
 
             else: 
                 print("Plaza ocupada. o no encontrada o lleno")
                 print(self.plazas_disponibles_por_tipo())
 
 
+    
 #SEGUIR CREANDO UN VEHICULO PARA CADA ABONADO, que diferencia hay de vehicula en plaza y vehiculo de abonado?
 #COMO ASIGNO UNA PLAZA A UN ABONADO ? PARA QUE if dni == alguna plaza de todas tendra un vehiculo que dentro tenga esa matricula
+    def retirar_abonados(self,id,pin):
+        i = 0
+        encontrado = False
+        while i < len(self.plazas) and not encontrado:
+            if self.plazas[i].id == id and self.plazas[i].abonado.pin == pin:
+                self.plazas[i].ocupada == False
+                self.plazas_libres += 1
+                encontrado = True
+            i += 1
+        if not encontrado:
+            print("La plaza con id {} no existe.".format(id))
+#LO QUE HE ESTADO HACIENDO EN FOR TAMBIEN SE PUEDE HACER CON WHILE
+
+
+    def alta_abonado(self,idPlaza,nombre,apellidos,dni,tarjeta,tipoAbono,email,matricula,tipoVehiculo):
+        vehiculoAbonado = Vehiculo(matricula,tipoVehiculo)
+        
+        abonoProvisional= Abono(tipoAbono,datetime.now(),idPlaza)
+
+        abonado = Abonado(nombre,apellidos,dni,tarjeta,abonoProvisional,email,vehiculoAbonado)
+ 
+        # for plaza in self.plazas:
+        #     if plaza.id == id and plaza.abonado.activo == False:
+        #         plaza.vehiculo=abonado.vehiculo
+        #         plaza.dni = abonado.dni
+        #         plaza.abonado.activo = True
+        
+        i = 0
+        encontrado = False
+        while i < len(self.plazas):
+            if self.plazas[i].id == id and self.plazas[i].abonado.activo == False:
+                self.plazas[i].vehiculo = abonado.vehiculo
+                self.plazas[i].dni = abonado.dni
+                self.plazas[i].abonado.activo = True
+                encontrado = True
+                break
+            i += 1  
+
+        self.facturacion.add_abonado(abonado)
+
+    def baja_abonado(self,abonado): #podria poner el dni y que lo busque por dni
+        i = 0
+        encontrado = False
+        while i < len(self.plazas) and not encontrado:
+            if self.plazas[i].id == abonado.abono.id_plaza_abono:
+                self.plazas[i].vehiculo=None
+                self.plazas[i].abonado=None
+                encontrado = True
+            i += 1
+        if not encontrado:
+            print("No existe")
