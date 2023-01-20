@@ -131,7 +131,8 @@ class Parking:
         print (f"Su coste por ser un vehiculo tipo {ticketNuevo.plaza.vehiculo.tipo} para la matrícula {ticketNuevo.plaza.vehiculo.matricula} es de {ticketNuevo.coste_total}. Su pin era: {ticketNuevo.pin} para la plaza con el identificador {ticketNuevo.plaza.id}. Ha estado de {ticketNuevo.fecha_entrada} a {ticketNuevo.fecha_salida}")
         # hacer que te diga también la tarifa que es un atributo self.coste.cars pero seria con if supongo con 3 prints
         print("-----------")
-        
+        #RECORDAR GUARDAR EN UNA LISTA DE TICKETS QUE PODRIA SER FACTURACION CON LISTA DE TICKETS
+        #guardar en lista lista de tickets de facturacion con append lista(ticket)
 
     def imprimir_plazas(self):
         for plaza in self.plazas:
