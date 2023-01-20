@@ -5,7 +5,7 @@ from entidades.abonado import Abonado
 
 
 if __name__ == "__main__":
-
+    #EL PIN Y LOS ID PASARLOS A INT
     parking = Parking(12) 
 
     car1 = Vehiculo("6230GVD", "car")
@@ -20,12 +20,12 @@ if __name__ == "__main__":
     #abonado2 = Abonado("XXXXXXXX","Mortadelo","Filomeno","66666","Semanal","13rue@hotmail.com",cocheabonado)
     #parking.alta_abonado(8,)
     
-    print("Plazas disponibles:", parking.calcular_plazas_libres()) 
+    print("Plazas disponibles iniciales:", parking.calcular_plazas_libres()) 
 
    
 
     plaza1 = Plaza(1, car1, abonado1)
-    #parking.addPlaza(plaza1)
+    parking.addPlaza(plaza1)
 
     plaza2 = Plaza(2, moto1, None)
     parking.addPlaza(plaza2)
@@ -34,20 +34,39 @@ if __name__ == "__main__":
     parking.addPlaza(plaza3)
 
     
-    parking.imprimir_plazas()
+    
 
-    print("Plazas disponibles:", parking.calcular_plazas_libres())
+    print("Plazas disponibles después de agregar:", parking.calcular_plazas_libres())
     print(parking.plazas_disponibles_por_tipo())
+
+    parking.imprimir_plazas()
 
     #parking.depositar_abonados(plaza1.vehiculo.matricula,plaza1.abonado.dni)
 
     #parking.imprimir_plazas()
+    # matricula = input("Introduce la matrícula del vehículo: ")
+    # dni = input("Introduce tu dni")
+
+
+
+    #parking.solicitar_datos_abonado()
     matricula = input("Introduce la matrícula del vehículo: ")
-    dni = input("Introduce tu dni")
+    id = int(input("Introduce tu identificador"))
+    pin = int(input("Introduce el pin "))
+
+    parking.retirar_abonados(matricula,id,pin)
+    
+
+    
+
+    parking.imprimir_plazas()
+    print("Plazas disponibles:", parking.calcular_plazas_libres())
+    print(parking.plazas_disponibles_por_tipo())
 
 
 
-    parking.depositar_abonados(matricula,dni)
+
+    # parking.depositar_abonados(matricula,dni)
 
 
 
