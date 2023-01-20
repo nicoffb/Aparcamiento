@@ -6,3 +6,35 @@ tengo que poner alguna restriccion para que el tipo sea uno de los 3 o me cogera
 
 
 los abonados siempre tienen plaza? quiero decir, el total disponible entonces no son 120 , hay reservado algun porcentaje para abonados?
+
+un abonado tiene una plaza y una plaza tiene un abonado?
+
+
+
+
+ a luismi su lo del CV en tutoria
+
+foto dependiendo del pais, yo la pondria si es en españa
+
+lo mas importante arriba y lo que te ha llevado a ello abajo
+
+incluir manejo de GIT?se da por hecho pero vale
+
+qr con mi github
+
+fullstack (angular y spring)
+
+github mierdecilla no, cosas interesante si. proyectos de miguel y eso quizas, mojones no, Trianafy si
+
+orientar a que prefieres Front o back
+
+
+si se ven el nombre de los commits cuidado
+
+
+
+ciclo formativo...etcetc
+
+el titulo es tecnico superior en desarollo de aplicaciones multiplataforma
+
+EN camelcase

@@ -1,22 +1,35 @@
+import random
+
+
 class Abonado:
-    def __init__(self, DNI, nombre, apellidos, tarjeta_credito, tipo_abono, email):
-        self._DNI = DNI
+    def __init__(self, dni, nombre, apellidos, tarjeta_credito, tipo_abono, email,vehiculoAbonado):
+        self._vehiculoAbonado = vehiculoAbonado
+        self._dni = dni
         self._nombre = nombre
         self._apellidos = apellidos
         self._tarjeta_credito = tarjeta_credito
         self._tipo_abono = tipo_abono
         self._email = email
-        self._pin = None
-        self._aparcado = False
+        self._pin = random.randint(1111, 9999)
+        self._activo = False
         #QUIERO QUE PIN SEA UN NÚMERO AL AZAR PERO DISTINTO ENTRE SÍ
-        
+
     @property
-    def DNI(self):
-        return self._DNI
+    def vehiculoAbonado(self):
+        return self._vehiculoAbonado
     
-    @DNI.setter
-    def DNI(self, value):
-        self._DNI = value
+    @vehiculoAbonado.setter
+    def vehiculo(self, value):
+        self._vehiculoAbonado = value
+        
+
+    @property
+    def dni(self):
+        return self._dni
+    
+    @dni.setter
+    def dni(self, value):
+        self._dni = value
         
     @property
     def nombre(self):
@@ -67,9 +80,13 @@ class Abonado:
         self._pin = value
 
     @property
-    def aparcado(self):
-        return self._aparcado
+    def activo(self):
+        return self._activo
     
-    @DNI.setter
-    def DNI(self, value):
-        self._aparcado = value
+    @activo.setter
+    def activo(self, value):
+        self._activo = value
+
+    
+    def str(self):
+        return "DNI: {}\nNombre: {}\nApellidos: {}\nTarjeta de crédito: {}\nTipo de abono: {}\nEmail: {}\nPin: {}\nEstado de aparcamiento: {}\n Matrícula {} Tipo {}".format(self._dni, self._nombre, self._apellidos, self._tarjeta_credito, self._tipo_abono, self._email, self._pin, self._activo,self._vehiculoAbonado.matricula,self._vehiculoAbonado.tipo)

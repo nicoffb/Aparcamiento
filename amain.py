@@ -12,7 +12,9 @@ if __name__ == "__main__":
     moto1 = Vehiculo("3030TSS", "motorcycle")
     minus = Vehiculo("7777", "handicapped")
 
-    abonado1 = Abonado("53771267L","Nicolás","Bursón","77777","Mensual","nicoffb@hotmail.com")
+
+    abonado1 = Abonado("53771267L","Nicolás","Bursón","77777","Mensual","nicoffb@hotmail.com",car1)
+    print(abonado1.str())
     
     print("Plazas disponibles:", parking.calcular_plazas_libres()) 
 
@@ -25,12 +27,42 @@ if __name__ == "__main__":
     plaza3 = Plaza(3, minus, None)
     parking.addPlaza(plaza3)
 
+    
+
 
     print("Plazas disponibles:", parking.calcular_plazas_libres())
     print(parking.plazas_disponibles_por_tipo())
 
+    parking.depositar_abonados(plaza1.vehiculo.matricula,plaza1.abonado.dni)
+
+    
+    matricula = input("Introduce la matrícula del vehículo: ")
+    dni = input("Introduce tu dni")
+
+
+
+    parking.depositar_abonados(matricula,dni)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     matricula = input("Introduce la matrícula del vehículo: ")
     tipo = input("Introduce el tipo de vehículo (car, motorcycle, handicapped): ")
+
 
     
     parking.asignar_plaza(matricula,tipo)
@@ -51,3 +83,4 @@ if __name__ == "__main__":
 
     # parking.calcularPago(tipo)
     
+

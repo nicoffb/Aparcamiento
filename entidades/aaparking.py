@@ -25,7 +25,7 @@ class Parking:
             self.total_plazas * self.porcentaje_plazas_libres_handicapped)
         self.plazas = []
         for i in range(self.total_plazas):
-            self.plazas.append(Plaza(i, Vehiculo(None, None), None, False))
+            self.plazas.append(Plaza(i, Vehiculo(None, None), Abonado(None,None,None,None,None,None,None), False))
 
     def addPlaza(self, plaza):
         if plaza.vehiculo.tipo == "car" and self.plazas_disponibles_car > 0:
@@ -132,6 +132,7 @@ class Parking:
         print (f"Su coste por ser un vehiculo tipo {ticketNuevo.plaza.vehiculo.tipo} para la matrícula {ticketNuevo.plaza.vehiculo.matricula} es de {ticketNuevo.coste_total}. Su pin era: {ticketNuevo.pin} para la plaza con el identificador {ticketNuevo.plaza.id}. Ha estado de {ticketNuevo.fecha_entrada} a {ticketNuevo.fecha_salida}")
         # hacer que te diga también la tarifa que es un atributo self.coste.cars pero seria con if supongo con 3 prints
         print("-----------")
+
         #RECORDAR GUARDAR EN UNA LISTA DE TICKETS QUE PODRIA SER FACTURACION CON LISTA DE TICKETS
         #guardar en lista lista de tickets de facturacion con append lista(ticket)
 
@@ -149,23 +150,20 @@ class Parking:
             if plaza.ocupada == False and not plaza_encontrada and self.plazas_libres > 0:
                 plaza_encontrada = False
                 for i, p in enumerate(self.plazas):
-                    if p.matricula == matricula.id and p.abonado.dni == dni:
+                    if p.vehiculo.matricula == matricula and p.abonado.dni == dni:
                         #quiero que la plaza se actualice y ponga que está ocupada y 
-                        pin = random.randint(1, 10)
                         plaza.vehiculo = Vehiculo(matricula,None)
                         self.plazas_libres -= 1
                         plaza.ocupada = True
-                        plaza.abonado.aparcado = True
-
-                        
-
+                        plaza.abonado.activo = True
                         self.plazas[i] = plaza
                         plaza_encontrada = True
-
-                
+                        #creo q no se está guardando el abonado, sino saldria ya aparcado True
 
             else: 
                 print("Plaza ocupada. o no encontrada o lleno")
                 print(self.plazas_disponibles_por_tipo())
 
 
+#SEGUIR CREANDO UN VEHICULO PARA CADA ABONADO, que diferencia hay de vehicula en plaza y vehiculo de abonado?
+#COMO ASIGNO UNA PLAZA A UN ABONADO ? PARA QUE if dni == alguna plaza de todas tendra un vehiculo que dentro tenga esa matricula
