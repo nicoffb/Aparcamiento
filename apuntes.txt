@@ -3,3 +3,6 @@ un aparcamiento con lista de plazas y una plaza tiene un coche-Luismi
 un cliente tiene un coche y una plaza, y un abonado hereda de cliente-Xopin
 
 tengo que poner alguna restriccion para que el tipo sea uno de los 3 o me cogera algun string?
+
+
+los abonados siempre tienen plaza? quiero decir, el total disponible entonces no son 120 , hay reservado algun porcentaje para abonados?

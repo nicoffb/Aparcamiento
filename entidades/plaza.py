@@ -1,14 +1,14 @@
 
 class Plaza:
-    def __init__(self,id, vehiculo, cliente=None, ocupada=None):
+    def __init__(self,id, vehiculo, abonado=None, ocupada=None):
         self.id= id
         self.__vehiculo = vehiculo
-        self.__cliente = cliente
+        self.__abonado = abonado
         self.__ocupada = ocupada
         
 
     def __str__(self):
-        return f"Ocupada: {self.ocupada}, Matrícula del vehículo: {self.cliente.matricula}, Plaza: {self.id}, Número de plaza"
+        return f"Ocupada: {self.ocupada}, Matrícula del vehículo: {self.abonado.matricula}, Plaza: {self.id}, Número de plaza"
 
     @property
     def vehiculo(self):
@@ -19,12 +19,12 @@ class Plaza:
         self.__vehiculo = vehiculo
 
     @property
-    def cliente(self):
-        return self.__cliente
+    def abonado(self):
+        return self.__abonado
 
-    @cliente.setter
-    def cliente(self, cliente):
-        self.__cliente = cliente
+    @abonado.setter
+    def abonado(self, abonado):
+        self.__abonado = abonado
 
 
     @property

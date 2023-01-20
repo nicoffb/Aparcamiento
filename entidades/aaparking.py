@@ -4,6 +4,7 @@ from datetime import datetime
 from entidades.plaza import Plaza
 from entidades.ticket import Ticket
 from entidades.vehiculo import Vehiculo
+from entidades.abonado import Abonado
 
 
 class Parking:
@@ -12,6 +13,7 @@ class Parking:
         self.coste_plazas_car = 1.20
         self.coste_plazas_motorcycle = 0.08
         self.coste_plaza_handicapped = 0.10
+        self.plazas_libres= None
         self.porcentaje_plazas_libres_car = 0.7
         self.porcentaje_plazas_libres_motorcycle = 0.15
         self.porcentaje_plazas_libres_handicapped = 0.15
@@ -48,9 +50,8 @@ class Parking:
 
 
     def calcular_plazas_libres(self):
-        self.total_plazas = self.plazas_disponibles_car + \
-            self.plazas_disponibles_motorcycle + self.plazas_disponibles_handicapped
-        return self.total_plazas
+        self.plazas_libres = sum(1 for plaza in self.plazas if not plaza.ocupada)
+        return self.plazas_libres
 
     def plazas_disponibles_por_tipo(self):
         return {'car': self.plazas_disponibles_car, 'motorcycle': self.plazas_disponibles_motorcycle, 'handicapped': self.plazas_disponibles_handicapped}
@@ -141,3 +142,31 @@ class Parking:
             print("Tipo: ", plaza.vehiculo.tipo)
             print("Estado: ", "Ocupada" if plaza.ocupada else "Libre")
             print("")
+
+    def depositar_abonados(self,matricula,DNI):
+        plaza_encontrada = False
+        for plaza in self.plazas:
+            if plaza.ocupada == False and not plaza_encontrada and self.plazas_libres > 0:
+                plaza.vehiculo = Vehiculo(matricula,None)
+                self.plazas_libres -= 1
+                plaza.ocupada = True
+                for i, p in enumerate(self.plazas):
+                    if p.matricula == matricula.id:
+                        self.plazas[i] = plaza
+                        plaza_encontrada = True
+
+                
+            
+                pin = random.randint(1, 10)
+                #corregir el numero
+                ticket = Ticket(plaza.vehiculo, plaza, None, None, None, pin)
+                with open("ticket.pkl", "wb") as f:
+                    pickle.dump(ticket, f)
+                print(f"Se ha generado una plaza {ticket.plaza.vehiculo.tipo} para la matrícula {ticket.plaza.vehiculo.matricula}. Su pin es: {ticket.pin} para la plaza con el identificador {ticket.plaza.id}. Hora: {ticket.fecha_entrada}")
+                f.close()
+
+        if not plaza_encontrada:
+            print("No hay plazas disponibles para ese tipo de vehículo.")
+            print(self.plazas_disponibles_por_tipo())
+
+
