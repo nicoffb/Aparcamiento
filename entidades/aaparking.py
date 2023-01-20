@@ -143,30 +143,29 @@ class Parking:
             print("Estado: ", "Ocupada" if plaza.ocupada else "Libre")
             print("")
 
-    def depositar_abonados(self,matricula,DNI):
+    def depositar_abonados(self,matricula,dni):
         plaza_encontrada = False
         for plaza in self.plazas:
             if plaza.ocupada == False and not plaza_encontrada and self.plazas_libres > 0:
-                plaza.vehiculo = Vehiculo(matricula,None)
-                self.plazas_libres -= 1
-                plaza.ocupada = True
+                plaza_encontrada = False
                 for i, p in enumerate(self.plazas):
-                    if p.matricula == matricula.id:
+                    if p.matricula == matricula.id and p.abonado.dni == dni:
+                        #quiero que la plaza se actualice y ponga que está ocupada y 
+                        pin = random.randint(1, 10)
+                        plaza.vehiculo = Vehiculo(matricula,None)
+                        self.plazas_libres -= 1
+                        plaza.ocupada = True
+                        plaza.abonado.aparcado = True
+
+                        
+
                         self.plazas[i] = plaza
                         plaza_encontrada = True
 
                 
-            
-                pin = random.randint(1, 10)
-                #corregir el numero
-                ticket = Ticket(plaza.vehiculo, plaza, None, None, None, pin)
-                with open("ticket.pkl", "wb") as f:
-                    pickle.dump(ticket, f)
-                print(f"Se ha generado una plaza {ticket.plaza.vehiculo.tipo} para la matrícula {ticket.plaza.vehiculo.matricula}. Su pin es: {ticket.pin} para la plaza con el identificador {ticket.plaza.id}. Hora: {ticket.fecha_entrada}")
-                f.close()
 
-        if not plaza_encontrada:
-            print("No hay plazas disponibles para ese tipo de vehículo.")
-            print(self.plazas_disponibles_por_tipo())
+            else: 
+                print("Plaza ocupada. o no encontrada o lleno")
+                print(self.plazas_disponibles_por_tipo())
 
 

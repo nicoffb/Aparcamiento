@@ -1,19 +1,22 @@
 from entidades.aaparking import Parking
 from entidades.plaza import Plaza
 from entidades.vehiculo import Vehiculo
+from entidades.abonado import Abonado
 
 
 if __name__ == "__main__":
 
-    
+    parking = Parking(12) 
 
     car1 = Vehiculo("6230GVD", "car")
     moto1 = Vehiculo("3030TSS", "motorcycle")
     minus = Vehiculo("7777", "handicapped")
 
-    parking = Parking(12) 
-    print("Plazas disponibles:", parking.calcular_plazas_libres()) # Create a parking with 100 parking spaces
-    plaza1 = Plaza(1, car1, None)
+    abonado1 = Abonado("53771267L","Nicolás","Bursón","77777","Mensual","nicoffb@hotmail.com")
+    
+    print("Plazas disponibles:", parking.calcular_plazas_libres()) 
+
+    plaza1 = Plaza(1, car1, abonado1)
     parking.addPlaza(plaza1)
 
     plaza2 = Plaza(2, moto1, None)

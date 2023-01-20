@@ -1,12 +1,14 @@
 class Abonado:
-    def __init__(self, DNI, nombre, apellidos, tarjeta_credito, tipo_abono, email, pin):
+    def __init__(self, DNI, nombre, apellidos, tarjeta_credito, tipo_abono, email):
         self._DNI = DNI
         self._nombre = nombre
         self._apellidos = apellidos
         self._tarjeta_credito = tarjeta_credito
         self._tipo_abono = tipo_abono
         self._email = email
-        self._pin = pin
+        self._pin = None
+        self._aparcado = False
+        #QUIERO QUE PIN SEA UN NÚMERO AL AZAR PERO DISTINTO ENTRE SÍ
         
     @property
     def DNI(self):
@@ -63,3 +65,11 @@ class Abonado:
     @pin.setter
     def pin(self, value):
         self._pin = value
+
+    @property
+    def aparcado(self):
+        return self._aparcado
+    
+    @DNI.setter
+    def DNI(self, value):
+        self._aparcado = value
