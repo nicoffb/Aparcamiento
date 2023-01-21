@@ -59,13 +59,12 @@ class Parking:
     def plazas_disponibles_por_tipo(self):
         return {'car': self.plazas_disponibles_car, 'motorcycle': self.plazas_disponibles_motorcycle, 'handicapped': self.plazas_disponibles_handicapped}
 
-    def asignar_plaza(self, matricula, tipo):
+    def depositar_vehiculo(self, matricula, tipo):
         plaza_encontrada = False
         for plaza in self.plazas:
             if plaza.ocupada == False and not plaza_encontrada:
                 plaza.vehiculo = Vehiculo(matricula, tipo)
                 self.addPlaza(plaza)
-                plaza_encontrada = True
                 print(self.plazas_disponibles_por_tipo())
                 pin = random.randint(000000, 9999999)
                 ticket = Ticket(plaza.vehiculo, plaza, None, None, None, pin)
@@ -73,7 +72,9 @@ class Parking:
                     pickle.dump(ticket, f)
                 print(f"Se ha generado una plaza {ticket.plaza.vehiculo.tipo} para la matrícula {ticket.plaza.vehiculo.matricula}. Su pin es: {ticket.pin} para la plaza con el identificador {ticket.plaza.id}. Hora: {ticket.fecha_entrada}")
                 self.facturacion.add_ticket(ticket)
+                #EL TICKET TEMPORAL SE AÑADE A FACTURACIÓN
                 f.close()
+                plaza_encontrada = True
 
         if not plaza_encontrada:
             print("No hay plazas disponibles para ese tipo de vehículo.")
@@ -141,7 +142,7 @@ class Parking:
     
     
 
-    
+#MÉTODOS ABONADOS
 
     def depositar_abonados(self,matricula,dni):
         plaza_encontrada = False
@@ -168,6 +169,7 @@ class Parking:
                 self.removePlaza(self.plazas[i])    
                 encontrado = True
             i += 1
+            print("Se ha retirado con éxito")
         if not encontrado:
             print("La plaza con id {} no existe o el pin no escorrecto.".format(id))
 
@@ -189,11 +191,12 @@ class Parking:
                 self.plazas[i].abonado= abonadoProvisional
                 self.plazas[i].abonado.activo = True
                 encontrado = True
-                break
+                print("Se ha dado de alta correctamente")
             i += 1  
         if not encontrado:
             print("La plaza con id {} no existe.".format(id))
         self.facturacion.add_abonado(abonadoProvisional)
+
 
    
    
@@ -217,7 +220,7 @@ class Parking:
         apellidos = input("Ingresa los apellidos del abonado: ")
         dni = input("Ingresa el DNI del abonado: ")
         tarjeta = input("Ingresa el numero de tarjeta del abonado: ")
-        tipoAbono = input("Ingresa el tipo de abono: ")
+        tipoAbono = input("Ingresa el tipo de abono: mensual, trimestral, semestral u anual ")
         email = input("Ingresa el correo electrónico del abonado: ")
         matricula = input("Ingresa la matrícula del vehículo: ")
         tipoVehiculo = input("Ingresa el tipo de vehículo: ")
@@ -231,7 +234,17 @@ class Parking:
             print("Matrícula: ", plaza.vehiculo.matricula)
             print("Tipo: ", plaza.vehiculo.tipo)
             print("Estado: ", "Ocupada" if plaza.ocupada else "Libre")
+        
+    
+    def imprimir_plazas_con_abonados(self):
+        for plaza in self.plazas:
+            print("Id: ", plaza.id)
+            print("Matrícula: ", plaza.vehiculo.matricula)
+            print("Tipo: ", plaza.vehiculo.tipo)
+            print("Estado: ", "Ocupada" if plaza.ocupada else "Libre")
             if plaza.abonado is not None:
-                print("INFORMACIÓN DEL ABONADO:",plaza.abonado.pin )
+                print("INFORMACIÓN DEL ABONADO:",plaza.abonado.str() )
             else:
                 print("SIN ABONADO ASIGNADO")
+
+    #podria hacer que administradorservice herede pa usar este método

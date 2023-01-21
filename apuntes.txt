@@ -10,6 +10,10 @@ los abonados siempre tienen plaza? quiero decir, el total disponible entonces no
 un abonado tiene una plaza y una plaza tiene un abonado?
 
 
+COSAS A APRENDER 
+ARGS para establecer sin constructores en chagpt de salesianos
+Puedes utilizar un diccionario para simular un switch en Python. A continuación te muestro un ejemplo de cómo podrías implementarlo con las opciones "Depositar vehículo" y "Retirar vehículo":
+
 
 
  a luismi su lo del CV en tutoria

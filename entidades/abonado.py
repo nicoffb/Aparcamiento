@@ -12,7 +12,6 @@ class Abonado:
         self._email = email
         self._pin = random.randint(1111, 9999)
         self._activo = False
-        #QUIERO QUE PIN SEA UN NÚMERO AL AZAR PERO DISTINTO ENTRE SÍ
 
     @property
     def vehiculoAbonado(self):
